@@ -3,7 +3,7 @@ const React = require('react')
 const onElementResize = require('element-resize-event')
 
 function defaultGetDimensions (element) {
-  return [element.clientWidth, element.clientHeight]
+  return {width: element.clientWidth, height: element.clientHeight}
 }
 
 /**
@@ -18,10 +18,6 @@ function defaultGetDimensions (element) {
  * (see examples)
  *
  * @param {object} [options]
- * @param {function} [options.getHeight] A function that is passed an element and returns element
- * height, where element is the wrapper div. Defaults to `(element) => element.clientHeight`
- * @param {function} [options.getWidth]  A function that is passed an element and returns element
- * width, where element is the wrapper div. Defaults to `(element) => element.clientWidth`
  * @param {number} [options.debounce] Optionally debounce the `onResize` callback function by
  * supplying the delay time in milliseconds. This will prevent excessive dimension
  * updates. See
@@ -92,11 +88,11 @@ module.exports = function Dimensions ({
       updateDimensionsImmediate = () => {
         const dimensions = getDimensions(this._parent)
 
-        if (dimensions[0] !== this.state.containerWidth ||
-            dimensions[1] !== this.state.containerHeight) {
+        if (dimensions.width !== this.state.containerWidth ||
+            dimensions.height !== this.state.containerHeight) {
           this.setState({
-            containerWidth: dimensions[0],
-            containerHeight: dimensions[1]
+            containerWidth: dimensions.width,
+            containerHeight: dimensions.height
           })
         }
       }
